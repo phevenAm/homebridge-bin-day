@@ -1,12 +1,23 @@
 {
   "name": "homebridge-bin-day",
   "displayName": "Bin Day",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shows a sensor in HomeKit for each bin, the evening before collection day.",
   "main": "dist/index.js",
   "license": "MIT",
-  "keywords": ["homebridge-plugin", "bin", "waste", "recycling", "uk"],
-  "files": ["dist", "config.schema.json", "README.md"],
+  "keywords": [
+    "homebridge-plugin",
+    "bin",
+    "waste",
+    "recycling",
+    "uk"
+  ],
+  "files": [
+    "dist",
+    "config.schema.json",
+    "README.md",
+    "docs"
+  ],
   "engines": {
     "node": ">=18.15.0",
     "homebridge": ">=1.6.0 || ^2.0.0-beta.0"

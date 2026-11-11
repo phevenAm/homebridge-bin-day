@@ -6,13 +6,63 @@
   "schema": {
     "type": "object",
     "properties": {
-      "name": { "title": "Name", "type": "string", "default": "Bin Day", "required": true },
-      "council": { "title": "Council", "type": "string", "default": "wokingham", "oneOf": [{ "title": "Wokingham Borough Council", "enum": ["wokingham"] }], "required": true },
-      "postcode": { "title": "Postcode", "type": "string", "placeholder": "RG40 2HR", "required": true },
-      "houseNumber": { "title": "House number or name", "type": "string", "placeholder": "90", "required": true },
-      "alertTime": { "title": "Turn on the evening before at (24h)", "type": "string", "default": "18:00", "pattern": "^([01]?\\d|2[0-3]):[0-5]\\d$" },
-      "endTime": { "title": "Turn off on collection day at (24h)", "type": "string", "default": "12:00", "pattern": "^([01]?\\d|2[0-3]):[0-5]\\d$" },
-      "refreshHours": { "title": "Check the council site every (hours)", "type": "integer", "default": 12, "minimum": 1 }
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "default": "Bin Day",
+        "required": true
+      },
+      "council": {
+        "title": "Council",
+        "type": "string",
+        "default": "wokingham",
+        "oneOf": [
+          {
+            "title": "Wokingham Borough Council",
+            "enum": [
+              "wokingham"
+            ]
+          }
+        ],
+        "required": true
+      },
+      "postcode": {
+        "title": "Postcode",
+        "type": "string",
+        "placeholder": "RG40 2HR",
+        "required": true
+      },
+      "houseNumber": {
+        "title": "House number or name",
+        "type": "string",
+        "placeholder": "90",
+        "required": true
+      },
+      "alertTime": {
+        "title": "Turn on the evening before at (24h)",
+        "type": "string",
+        "default": "18:00",
+        "pattern": "^([01]?\\d|2[0-3]):[0-5]\\d$"
+      },
+      "endTime": {
+        "title": "Turn off on collection day at (24h)",
+        "type": "string",
+        "default": "12:00",
+        "pattern": "^([01]?\\d|2[0-3]):[0-5]\\d$"
+      },
+      "refreshHours": {
+        "title": "Check the council site every (hours)",
+        "type": "integer",
+        "default": 12,
+        "minimum": 1
+      },
+      "httpPort": {
+        "title": "Port for the Siri Shortcuts link (0 to turn off)",
+        "type": "integer",
+        "default": 8586,
+        "minimum": 0,
+        "maximum": 65535
+      }
     }
   }
 }

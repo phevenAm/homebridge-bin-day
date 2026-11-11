@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 910 450" width="910" height="450" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="908" height="448" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+  <text x="30" y="46" font-size="22" font-weight="700" fill="#111827">How Bin Day works</text>
+
+  <!-- Council -->
+  <rect x="30" y="185" width="180" height="70" rx="12" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="120" y="215" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">Council website</text>
+  <text x="120" y="237" font-size="13" fill="#4b5563" text-anchor="middle">Wokingham bin days</text>
+
+  <!-- Plugin -->
+  <rect x="270" y="160" width="200" height="120" rx="12" fill="#ecfdf5" stroke="#16a34a" stroke-width="2"/>
+  <text x="370" y="192" font-size="16" font-weight="700" fill="#14532d" text-anchor="middle">Bin Day plugin</text>
+  <text x="370" y="213" font-size="13" fill="#166534" text-anchor="middle">runs on your Pi</text>
+  <text x="370" y="242" font-size="12" fill="#166534" text-anchor="middle">Checks twice a day and</text>
+  <text x="370" y="259" font-size="12" fill="#166534" text-anchor="middle">saves the dates</text>
+
+  <!-- Sensor -->
+  <rect x="540" y="80" width="160" height="64" rx="12" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="620" y="108" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">Home app sensor</text>
+  <text x="620" y="128" font-size="13" fill="#4b5563" text-anchor="middle">one per bin</text>
+
+  <!-- Hue -->
+  <rect x="740" y="80" width="140" height="64" rx="12" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="810" y="106" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">Hue light</text>
+  <circle cx="788" cy="126" r="7" fill="#16a34a"/>
+  <circle cx="810" cy="126" r="7" fill="#374151"/>
+  <circle cx="832" cy="126" r="7" fill="#2563eb"/>
+  <text x="710" y="172" font-size="12" fill="#6b7280" text-anchor="middle">Your Home automation sets the bin's colour</text>
+
+  <!-- Web link -->
+  <rect x="540" y="296" width="160" height="64" rx="12" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="620" y="324" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">Web link</text>
+  <text x="620" y="344" font-size="13" fill="#4b5563" text-anchor="middle">admin.local:8586</text>
+
+  <!-- Siri -->
+  <rect x="740" y="296" width="140" height="64" rx="12" fill="#eff6ff" stroke="#2563eb"/>
+  <text x="810" y="324" font-size="15" font-weight="600" fill="#1e3a8a" text-anchor="middle">Siri Shortcut</text>
+  <text x="810" y="344" font-size="13" fill="#1e40af" text-anchor="middle">"Hey Siri, bin day"</text>
+
+  <!-- Speech bubble -->
+  <rect x="500" y="382" width="390" height="44" rx="22" fill="#2563eb"/>
+  <text x="695" y="409" font-size="13" fill="#ffffff" text-anchor="middle">"Next is Recycling, tomorrow, Tuesday 17 November."</text>
+
+  <!-- Arrows -->
+  <path d="M210 220 L266 220" stroke="#6b7280" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M470 200 C505 200 505 112 536 112" stroke="#6b7280" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M470 240 C505 240 505 328 536 328" stroke="#6b7280" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M700 112 L736 112" stroke="#6b7280" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M700 328 L736 328" stroke="#6b7280" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+</svg>

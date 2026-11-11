@@ -9,6 +9,7 @@ import type {
 } from 'homebridge';
 import { COUNCILS, type BinCollection } from './councils';
 import { isAlertActive, parseTime } from './schedule';
+import { startHttpServer } from './http';
 
 export const PLATFORM_NAME = 'BinDay';
 export const PLUGIN_NAME = 'homebridge-bin-day';
@@ -20,6 +21,7 @@ interface BinDayConfig extends PlatformConfig {
   alertTime?: string;
   endTime?: string;
   refreshHours?: number;
+  httpPort?: number;
 }
 
 export class BinDayPlatform implements DynamicPlatformPlugin {
@@ -44,6 +46,8 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
   }
 
   private async start(): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    this.log.info(`Bin Day v${(require('../package.json') as { version: string }).version} starting`);
     const { postcode, houseNumber } = this.config;
     const council = (this.config.council ?? 'wokingham').toLowerCase();
     if (!postcode || !houseNumber) {
@@ -56,6 +60,12 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
     }
 
     await this.loadCache();
+
+    const port = this.config.httpPort ?? 8586;
+    if (port > 0) {
+      startHttpServer(port, this.log, () => this.bins);
+    }
+
     this.syncAccessories(false);
     this.updateStates();
 
