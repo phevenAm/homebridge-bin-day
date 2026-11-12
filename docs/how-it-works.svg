@@ -34,8 +34,8 @@
 
   <!-- Web link -->
   <rect x="540" y="296" width="160" height="64" rx="12" fill="#f3f4f6" stroke="#d1d5db"/>
-  <text x="620" y="324" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">Web link</text>
-  <text x="620" y="344" font-size="13" fill="#4b5563" text-anchor="middle">admin.local:8586</text>
+  <text x="620" y="324" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">Web API</text>
+  <text x="620" y="344" font-size="13" fill="#4b5563" text-anchor="middle">admin.local:8586/api</text>
 
   <!-- Siri -->
   <rect x="740" y="296" width="140" height="64" rx="12" fill="#eff6ff" stroke="#2563eb"/>

@@ -57,11 +57,33 @@
         "minimum": 1
       },
       "httpPort": {
-        "title": "Port for the Siri Shortcuts link (0 to turn off)",
+        "title": "Port for the web API and Siri link (0 to turn off)",
         "type": "integer",
         "default": 8586,
         "minimum": 0,
         "maximum": 65535
+      },
+      "apiKey": {
+        "title": "Access key (optional)",
+        "type": "string",
+        "description": "If set, apps must add ?key=YOUR_KEY to every link. Leave empty on a home network."
+      },
+      "binColours": {
+        "title": "Bin colours (optional, shown in the API)",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "bin": {
+              "title": "Bin name, as the council writes it",
+              "type": "string"
+            },
+            "colour": {
+              "title": "Colour, e.g. green or #16a34a",
+              "type": "string"
+            }
+          }
+        }
       }
     }
   }

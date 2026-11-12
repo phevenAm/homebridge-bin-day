@@ -9,7 +9,7 @@ import type {
 } from 'homebridge';
 import { COUNCILS, type BinCollection } from './councils';
 import { isAlertActive, parseTime } from './schedule';
-import { startHttpServer } from './http';
+import { startHttpServer, type ApiState } from './http';
 
 export const PLATFORM_NAME = 'BinDay';
 export const PLUGIN_NAME = 'homebridge-bin-day';
@@ -22,6 +22,8 @@ interface BinDayConfig extends PlatformConfig {
   endTime?: string;
   refreshHours?: number;
   httpPort?: number;
+  apiKey?: string;
+  binColours?: { bin?: string; colour?: string }[];
 }
 
 export class BinDayPlatform implements DynamicPlatformPlugin {
@@ -29,6 +31,12 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
   private readonly lastState = new Map<string, boolean>();
   private readonly cacheFile: string;
   private bins: BinCollection[] = [];
+  private address?: string;
+  private lastAttempt?: string;
+  private lastSuccess?: string;
+  private lastError?: string;
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  private readonly version = (require('../package.json') as { version: string }).version;
 
   constructor(
     private readonly log: Logging,
@@ -46,8 +54,7 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
   }
 
   private async start(): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    this.log.info(`Bin Day v${(require('../package.json') as { version: string }).version} starting`);
+    this.log.info(`Bin Day v${this.version} starting`);
     const { postcode, houseNumber } = this.config;
     const council = (this.config.council ?? 'wokingham').toLowerCase();
     if (!postcode || !houseNumber) {
@@ -63,7 +70,7 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
 
     const port = this.config.httpPort ?? 8586;
     if (port > 0) {
-      startHttpServer(port, this.log, () => this.bins);
+      startHttpServer(port, this.config.apiKey?.trim() || undefined, this.log, () => this.apiState());
     }
 
     this.syncAccessories(false);
@@ -78,6 +85,7 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
 
   private async refresh(): Promise<void> {
     const council = (this.config.council ?? 'wokingham').toLowerCase();
+    this.lastAttempt = new Date().toISOString();
     try {
       const result = await COUNCILS[council](this.config.postcode as string, this.config.houseNumber as string);
       if (result.bins.length === 0) {
@@ -85,6 +93,9 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
         return;
       }
       this.bins = result.bins;
+      this.address = result.address;
+      this.lastSuccess = new Date().toISOString();
+      this.lastError = undefined;
       await this.saveCache();
       this.log.info(`Bin days for ${result.address}:`);
       for (const bin of this.bins) {
@@ -94,8 +105,30 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
       this.updateStates();
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
+      this.lastError = message;
       this.log.warn(`Couldn't read the council site, using saved dates. (${message})`);
     }
+  }
+
+  private apiState(): ApiState {
+    const colours: Record<string, string> = {};
+    for (const entry of this.config.binColours ?? []) {
+      if (entry.bin && entry.colour) {
+        colours[entry.bin] = entry.colour;
+      }
+    }
+    return {
+      version: this.version,
+      council: this.config.council ?? 'wokingham',
+      address: this.address,
+      bins: this.bins,
+      alertTime: parseTime(this.config.alertTime, '18:00'),
+      endTime: parseTime(this.config.endTime, '12:00'),
+      colours,
+      lastAttempt: this.lastAttempt,
+      lastSuccess: this.lastSuccess,
+      lastError: this.lastError,
+    };
   }
 
   private uuidFor(type: string): string {
@@ -164,9 +197,15 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
 
   private async loadCache(): Promise<void> {
     try {
-      const saved = JSON.parse(await fs.readFile(this.cacheFile, 'utf8')) as { bins?: BinCollection[] };
+      const saved = JSON.parse(await fs.readFile(this.cacheFile, 'utf8')) as {
+        bins?: BinCollection[];
+        address?: string;
+        savedAt?: string;
+      };
       if (Array.isArray(saved.bins)) {
         this.bins = saved.bins;
+        this.address = saved.address;
+        this.lastSuccess = saved.savedAt;
       }
     } catch {
       // No saved dates yet. That's fine on first run.
@@ -175,7 +214,7 @@ export class BinDayPlatform implements DynamicPlatformPlugin {
 
   private async saveCache(): Promise<void> {
     try {
-      await fs.writeFile(this.cacheFile, JSON.stringify({ bins: this.bins, savedAt: new Date().toISOString() }, null, 2));
+      await fs.writeFile(this.cacheFile, JSON.stringify({ bins: this.bins, address: this.address, savedAt: this.lastSuccess }, null, 2));
     } catch (err) {
       this.log.warn(`Couldn't save bin dates: ${err instanceof Error ? err.message : String(err)}`);
     }

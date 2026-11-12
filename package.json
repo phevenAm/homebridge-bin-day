@@ -1,7 +1,7 @@
 {
   "name": "homebridge-bin-day",
   "displayName": "Bin Day",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shows a sensor in HomeKit for each bin, the evening before collection day.",
   "main": "dist/index.js",
   "license": "MIT",
